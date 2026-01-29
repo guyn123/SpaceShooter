@@ -3,26 +3,28 @@ using System.Collections;
 
 public class PlayerShootingg : MonoBehaviour
 {
-    public GameObject bulletPrefab;
-    public float shootingInterval = 0.2f; // Thời gian giãn cách giữa 2 viên đạn
+    public GameObject bulletPrefabs;
+    public float shootingInterval;
+    public Vector3 bulletOffset;
     private float lastBulletTime;
-
+    // Update is called once per frame
     void Update()
     {
-        // Dùng GetMouseButton (giữ chuột) thay vì GetMouseButtonDown (nhấn 1 cái)
         if (Input.GetMouseButton(0))
         {
-            // Kiểm tra xem đã đủ thời gian chờ chưa
-            if (Time.time - lastBulletTime > shootingInterval)
-            {
-                ShootBullet();
-                lastBulletTime = Time.time;
-            }
+            UpdateFiring();
         }
     }
-
-    void ShootBullet()
+    private void UpdateFiring()
     {
-        Instantiate(bulletPrefab, transform.position, transform.rotation);
+        if (Time.time - lastBulletTime > shootingInterval)
+        {
+            ShootBullet();
+            lastBulletTime = Time.time;
+        }
+    }
+    private void ShootBullet()
+    {
+        var bullet = Instantiate(bulletPrefabs, transform.position + bulletOffset, transform.rotation);
     }
 }
