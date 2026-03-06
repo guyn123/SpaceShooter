@@ -14,14 +14,31 @@
 //        Destroy(gameObject);
 //    }
 //}
-using UnityEngine;
 
-public class EnemyHealth : Health // Kế thừa từ Health
+
+//using UnityEngine;
+
+//public class EnemyHealth : Health // Kế thừa từ Health
+//{
+//    // Ghi đè hàm Die để in ra log riêng
+//    protected override void Die()
+//    {
+//        base.Die(); // Gọi hàm Die gốc của cha (để nổ và xóa)
+//        Debug.Log("Enemy died");
+//    }
+//}
+
+public class EnemyHealth : Health
 {
-    // Ghi đè hàm Die để in ra log riêng
+    // Biến static để đếm tổng số địch đang sống
+    public static int LivingEnemyCount;
+
+    // Khi địch sinh ra, tăng số lượng lên 1
+    private void Awake() => LivingEnemyCount++;
+
     protected override void Die()
     {
-        base.Die(); // Gọi hàm Die gốc của cha (để nổ và xóa)
-        Debug.Log("Enemy died");
+        LivingEnemyCount--; // Khi địch chết, giảm số lượng đi 1
+        base.Die();
     }
 }

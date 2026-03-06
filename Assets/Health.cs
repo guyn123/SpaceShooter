@@ -6,6 +6,7 @@ public class Health : MonoBehaviour
 {
     public GameObject explosionPrefab; // Hiệu ứng nổ
     public int defaultHealthPoint;     // Máu mặc định
+    public System.Action onDead;
     private int healthPoint;
 
     private void Start()
@@ -35,5 +36,6 @@ public class Health : MonoBehaviour
             Destroy(explosion, 1);
         }
         Destroy(gameObject); // Xóa đối tượng
+        onDead?.Invoke();
     }
 }
