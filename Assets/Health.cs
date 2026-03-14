@@ -7,23 +7,21 @@ public class Health : MonoBehaviour
     public GameObject explosionPrefab; // Hiệu ứng nổ
     public int defaultHealthPoint;     // Máu mặc định
     public System.Action onDead;
-    private int healthPoint;
+    public System.Action onHealthChanged;
+    public int healthPoint;
 
     private void Start()
     {
         healthPoint = defaultHealthPoint; // Gán máu khi bắt đầu
+        onHealthChanged?.Invoke();
     }
 
     public void TakeDamage(int damage)
     {
         if (healthPoint <= 0) return;
-
-        healthPoint -= damage; // Trừ máu
-
-        if (healthPoint <= 0)
-        {
-            Die(); // Hết máu thì gọi hàm chết
-        }
+        healthPoint -= damage;
+        onHealthChanged?.Invoke(); // Báo hiệu máu bị trừ
+        if (healthPoint <= 0) Die();
     }
 
     // Hàm ảo (virtual) để con cái có thể viết lại (override)
